@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 type UserRole = 'admin' | 'customer';
+const token = localStorage.getItem("access_token");
 
 interface User {
     id: number;
@@ -17,7 +18,7 @@ interface AuthState {
 
 const initialState: AuthState = {
     user: null,
-    isAuthenticated: false,
+    isAuthenticated: !!token,
 };
 
 const authSlice = createSlice({
@@ -29,6 +30,7 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
         },
         clearCredentials(state) {
+            localStorage.removeItem("access_token");
             state.user = null;
             state.isAuthenticated = false;
         },

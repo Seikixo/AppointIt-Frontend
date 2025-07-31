@@ -1,41 +1,59 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { getCsrfToken, getUser, loginUser } from "../../services/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { getUser, loginUser } from "../../services/auth";
 import { setCredentials } from "../../store/authSlice";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import type { RootState } from "@/store";
 
 export default function Login()
 {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const isAuthenticated = useSelector(
+        (state: RootState) => state.auth.isAuthenticated
+    );
+    const [error, setError] = useState('');
     const [form, setForm] = useState({
         email: '',
         password: '',
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value});
+        if (error) setError('');
+    }
+
 
     const handleSubmit = async (e:React.FormEvent) => {
         e.preventDefault();
         try {
-            await getCsrfToken();
-            await loginUser(form);
+            const resLogin = await loginUser(form);
+
+            if(resLogin?.success === false){
+                setError(resLogin?.message || "Invalid credentials.");
+                return;
+            }
             const res = await getUser();
 
             dispatch(setCredentials({
                 user: res.data, 
             }))
-
-            navigate('/dashboard');
         }
 
-        catch(err) {
-            console.log(err);
+        catch(error: any) {
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Something went wrong. Please try again.";
+            console.error("Login error:", error);
+            console.log("Message", message)
         }
+    }
+
+    if(isAuthenticated) {
+        return <Navigate to={'/dashboard'} replace />
     }
 
     return(
@@ -44,6 +62,7 @@ export default function Login()
                 <CardTitle>Login</CardTitle>
             </CardHeader>
             <CardContent>
+                {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <Input 
                         name="email" 
@@ -57,7 +76,7 @@ export default function Login()
                         onChange={handleChange}
                         placeholder="Password"
                     />
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" className="w-full mt-10">
                         Login
                     </Button>
                 </form>
