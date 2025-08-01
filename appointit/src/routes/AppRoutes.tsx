@@ -4,6 +4,7 @@ import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/auth/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./PrivateRoutes";
+import Organization from "@/pages/Organization";
 
 const AppRoutes = () => {
     return(
@@ -15,6 +16,7 @@ const AppRoutes = () => {
             <Route element={<PrivateRoutes/>}>
                 <Route element={<MainLayout/>}>
                     <Route path="/dashboard" element={<Dashboard/>} />
+                    <Route path="/organization" element={<Organization/>}/>
                 </Route>
             </Route>
 

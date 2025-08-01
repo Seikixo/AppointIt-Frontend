@@ -14,8 +14,7 @@ export const loginUser = async (data: {
     }
     catch(error: any)
     {   
-        const message =
-        error.response?.data?.message || "Login failed. Please try again.";
+        const message = error.response?.data?.message || "Login failed. Please try again.";
         return { success: false, message };        
     }
 
@@ -30,10 +29,19 @@ export const registerUser = (data: {
 }) => axiosInstance.post('/register', data);
 
 export const logoutUser = async () => {
-    const response = axiosInstance.post('/logout');
-    localStorage.removeItem("access_token");
+    try
+    {
+        const response = axiosInstance.post('/logout');
+        localStorage.removeItem("access_token");
 
-    return response;
+        return {success: true, message: response};
+    }
+    catch(error: any)
+    {
+        const message = error.response;
+        return {success: false, message: message}
+    }
+
 };
 
 export const getUser = () => axiosInstance.get('/user');

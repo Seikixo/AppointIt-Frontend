@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings, LogOut } from "lucide-react"
+import { LayoutDashboard, Building2 ,LogOut } from "lucide-react"
 
 import {
   Sidebar,
@@ -28,29 +28,14 @@ import { clearCredentials } from "@/store/authSlice";
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    title: "Organization",
+    url: "/organization",
+    icon: Building2,
   },
 ]
 
