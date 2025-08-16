@@ -6,7 +6,12 @@ export const createOrganizationApi = async (data: Organization) => {
     const response = await axiosInstance.post("/organizations", data);
     return response.data;
   } catch (error: any) {
-    const message = error.response?.data?.message;
-    return { success: false, message };
+    const message = error.response?.data?.message || error.message;
+    const serverErrors = error.response?.data?.errors;
+    if (serverErrors) {
+      throw serverErrors;
+    }
+
+    throw new Error(message);
   }
 };

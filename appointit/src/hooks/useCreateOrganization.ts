@@ -9,8 +9,12 @@ export const useCreateOrganization = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["organizations"] });
     },
-    onError: (err) => {
-      console.error("Failed to create post:", err);
+    onError: (err: any) => {
+      if (err && typeof err === "object") {
+        console.error("Validation errors:", err);
+      } else {
+        console.error("Failed to create organization:", err);
+      }
     },
   });
 

@@ -11,6 +11,7 @@ import type { Organization } from "@/types/types";
 export default function CreateOrgForm() {
   const user = useSelector(selectUser);
   const createOrganization = useCreateOrganization();
+  const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
   const [data, setData] = useState({
     user_id: 0,
     name: "",
@@ -25,6 +26,11 @@ export default function CreateOrgForm() {
     try {
       await createOrganization({ ...data, user_id: user?.id } as Organization);
     } catch (error: any) {
+      if (error && typeof error === "object" && !Array.isArray(error)) {
+        setErrors(error);
+      } else {
+        setErrors({ general: [error?.message || "Something went wrong"] });
+      }
       console.log("Error creating org: ", error);
     }
   };
@@ -35,12 +41,16 @@ export default function CreateOrgForm() {
         <Label className="pb-2" htmlFor="name">
           Name
         </Label>
+        {errors?.name && (
+          <p className="text-sm text-red-500 mt-1">{errors.name[0]}</p>
+        )}
         <Input
           type="text"
           id="name"
           placeholder="John Doe"
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
+          className={errors?.name ? "border-red-500" : ""}
           required
         />
       </div>
@@ -48,12 +58,16 @@ export default function CreateOrgForm() {
         <Label className="pb-2" htmlFor="email">
           Email
         </Label>
+        {errors?.email && (
+          <p className="text-sm text-red-500 mt-1">{errors.email[0]}</p>
+        )}
         <Input
           type="email"
           id="email"
           placeholder="jd@example.com"
           value={data.email}
           onChange={(e) => setData({ ...data, email: e.target.value })}
+          className={errors?.email ? "border-red-500" : ""}
           required
         />
       </div>
