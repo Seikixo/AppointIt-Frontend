@@ -22,5 +22,8 @@ export const useCreateOrganization = () => {
     return createOrgMutation.mutateAsync(data);
   };
 
-  return createOrganization;
+  return {
+    createOrganization,
+    isPending: createOrgMutation.isPending,
+  };
 };

@@ -7,10 +7,11 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { useCreateOrganization } from "@/hooks/useCreateOrganization";
 import type { Organization } from "@/types/types";
+import { Loader } from "./ui/loader";
 
 export default function CreateOrgForm() {
   const user = useSelector(selectUser);
-  const createOrganization = useCreateOrganization();
+  const { createOrganization, isPending } = useCreateOrganization();
   const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
   const [data, setData] = useState({
     user_id: 0,
@@ -107,7 +108,7 @@ export default function CreateOrgForm() {
         />
       </div>
 
-      <Button type="submit">Submit</Button>
+      <Button type="submit">{isPending ? <Loader /> : "Submit"}</Button>
     </form>
   );
 }
