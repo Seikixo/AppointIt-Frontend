@@ -34,12 +34,23 @@ export default function Login() {
         return;
       }
       const userData = await getUser();
-
+      console.log(userData);
+      const firstOrganization = userData.data.users.organizations?.[0] || null;
       const transformedUserData = {
         id: userData.data.users.id,
         name: userData.data.users.name,
         email: userData.data.users.email,
         role: userData.data.users.roles?.[0]?.name || "customer",
+        organization: firstOrganization
+          ? {
+              user_id: firstOrganization.user_id,
+              name: firstOrganization.name,
+              description: firstOrganization.description,
+              email: firstOrganization.email,
+              contact_number: firstOrganization.contact_number,
+              address: firstOrganization.address,
+            }
+          : null,
       };
       console.log("User data: ", transformedUserData);
       dispatch(

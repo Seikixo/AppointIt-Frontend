@@ -21,11 +21,23 @@ function App() {
     if (token && !user) {
       getUser()
         .then((res) => {
+          const firstOrganization = res.data.users.organizations?.[0] || null;
           const transformedUserData = {
             id: res.data.users.id,
             name: res.data.users.name,
             email: res.data.users.email,
             role: res.data.users.roles?.[0]?.name || "customer",
+            organization: firstOrganization
+              ? {
+                  id: firstOrganization.id,
+                  user_id: firstOrganization.user_id,
+                  name: firstOrganization.name,
+                  description: firstOrganization.description,
+                  email: firstOrganization.email,
+                  contact_number: firstOrganization.contact_number,
+                  address: firstOrganization.address,
+                }
+              : null,
           };
           dispatch(setCredentials({ user: transformedUserData }));
         })

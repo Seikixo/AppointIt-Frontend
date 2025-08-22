@@ -15,3 +15,18 @@ export const createOrganizationApi = async (data: Organization) => {
     throw new Error(message);
   }
 };
+
+export const getOrganizationApi = async (orgId: number) => {
+  try {
+    const response = await axiosInstance.get(`/organizations/${orgId}`);
+    return response.data;
+  } catch (error: any) {
+    const message = error.response?.data?.message || error.message;
+    const serverErrors = error.response?.data?.errors;
+    if (serverErrors) {
+      throw serverErrors;
+    }
+
+    throw new Error(message);
+  }
+};

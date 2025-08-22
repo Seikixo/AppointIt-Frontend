@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import CreateOrgForm from "./CreateOrgForm";
 
-function CreateOrgButton() {
+export default function CreateOrgButton() {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -39,5 +39,3 @@ function CreateOrgButton() {
     </Sheet>
   );
 }
-
-export default CreateOrgButton;

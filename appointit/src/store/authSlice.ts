@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from ".";
+import type { Organization } from "@/types/types";
 
 type UserRole = "admin" | "customer";
 const token = localStorage.getItem("access_token");
@@ -10,6 +11,7 @@ interface User {
   name: string;
   email: string;
   role: UserRole;
+  organization: Organization | null;
 }
 
 interface AuthState {
