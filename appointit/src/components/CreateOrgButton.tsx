@@ -10,13 +10,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import CreateOrgForm from "./CreateOrgForm";
+import { Plus } from "lucide-react";
 
 export default function CreateOrgButton() {
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button className="cursor-pointer" variant="outline">
-          Create Organization
+          <Plus /> Create Organization
         </Button>
       </SheetTrigger>
       <SheetContent>
