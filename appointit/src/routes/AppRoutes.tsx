@@ -6,25 +6,30 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./PrivateRoutes";
 import Organization from "@/pages/Organization";
 
-const AppRoutes = () => {
-    return(
-        <Routes>
-            <Route element={<AuthLayout/>}>
-                <Route path="/login" element={<Login/>}/>
-            </Route>
-
-            <Route element={<PrivateRoutes/>}>
-                <Route element={<MainLayout/>}>
-                    <Route path="/dashboard" element={<Dashboard/>} />
-                    <Route path="/organization" element={<Organization/>}/>
-                </Route>
-            </Route>
-
-
-            <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
-    )
+function DefaultRedirect() {
+  // Check localStorage directly instead of using useAuth hook
+  const token = localStorage.getItem("token");
+  return <Navigate to={token ? "/dashboard" : "/login"} replace />;
 }
 
-export default AppRoutes;
+const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<DefaultRedirect />} />
+      <Route element={<AuthLayout />}>
+        <Route path="/login" element={<Login />} />
+      </Route>
 
+      <Route element={<PrivateRoutes />}>
+        <Route element={<MainLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/organization" element={<Organization />} />
+        </Route>
+      </Route>
+
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
+  );
+};
+
+export default AppRoutes;

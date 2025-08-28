@@ -1,26 +1,23 @@
 import CreateOrgButton from "@/components/CreateOrgButton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/hooks/useAuth";
 import { useFetchOrganization } from "@/hooks/useFetchOrganization";
-import { selectUser } from "@/store/authSlice";
-import { useSelector } from "react-redux";
 
 export default function Organization() {
-  const user = useSelector(selectUser);
-  const orgId = user?.organization?.id;
-  console.log("User details", user);
+  const { user } = useAuth();
   const { organization, isLoading } = useFetchOrganization(
-    orgId,
-    Boolean(orgId)
+    user?.data.users.organizations[0].id
   );
-
+  console.log("User details: ", user);
+  console.log("Org:", organization);
   return (
     <div className="w-full h-full flex flex-col p-2 items-center">
       <div className="self-end mb-4">
         <CreateOrgButton />
       </div>
 
-      {isLoading || !organization ? (
+      {isLoading ? (
         // Skeleton immediately
         <div className="flex w-full">
           <Card className="w-full">
@@ -38,10 +35,10 @@ export default function Organization() {
         // Real card
         <div className="flex w-full">
           <Card className="flex flex-col gap-1 w-full p-4">
-            <div className="font-bold">{organization.organization?.name}</div>
-            <div>{organization.organization?.address}</div>
-            <div>{organization.organization?.contact_number}</div>
-            <div>{organization.organization?.email}</div>
+            <div className="font-bold">{organization?.organization.name}</div>
+            <div>{organization?.organization.address}</div>
+            <div>{organization?.organization.contact_number}</div>
+            <div>{organization?.organization.email}</div>
           </Card>
         </div>
       )}

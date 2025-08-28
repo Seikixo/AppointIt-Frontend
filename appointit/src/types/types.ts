@@ -8,6 +8,21 @@ export type Organization = {
   address: string;
 };
 
+type UserRole = "admin" | "customer";
+
+export type User = {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
+  organization: Organization | null;
+};
+
+export type Credentials = {
+  email: string;
+  password: string;
+};
+
 export type onSubmit = {
   onSubmitForm: () => void;
 };

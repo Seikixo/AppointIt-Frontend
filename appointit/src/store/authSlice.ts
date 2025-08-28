@@ -42,7 +42,6 @@ const authSlice = createSlice({
 
 export const { setCredentials, clearCredentials } = authSlice.actions;
 export const selectUser = (state: RootState) => {
-  console.log("Selecting user from state:", state.auth.user);
   return state.auth.user;
 };
 export const selectIsAuthenticated = (state: RootState) =>

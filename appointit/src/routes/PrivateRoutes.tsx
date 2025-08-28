@@ -1,11 +1,16 @@
-import { selectIsAuthenticated } from "@/store/authSlice";
-import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
-const PrivateRoutes = () => {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+export default function PrivateRoute() {
+  const { user, isLoading } = useAuth();
 
-  return isAuthenticated ? <Outlet /> : <Navigate to={"/login"} replace />;
-};
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
-export default PrivateRoutes;
+  return user ? <Outlet /> : <Navigate to="/login" replace />;
+}

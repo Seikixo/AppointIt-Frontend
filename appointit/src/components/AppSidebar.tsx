@@ -22,10 +22,8 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "@/services/auth";
-import { clearCredentials } from "@/store/authSlice";
+import { useAuth } from "@/hooks/useAuth";
 
 // Menu items.
 const items = [
@@ -42,13 +40,12 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
     try {
-      await logoutUser();
-      dispatch(clearCredentials());
+      await logout();
       navigate("/login");
     } catch (err) {
       console.error("Logout failed", err);
