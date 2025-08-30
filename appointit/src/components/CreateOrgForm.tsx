@@ -1,16 +1,16 @@
-import { useSelector } from "react-redux";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { selectUser } from "@/store/authSlice";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button } from "./ui/button";
 import { useCreateOrganization } from "@/hooks/useCreateOrganization";
 import type { Organization } from "@/types/types";
 import { Loader } from "./ui/loader";
+import { AuthContext } from "@/providers/AuthProvider";
 
 export default function CreateOrgForm() {
-  const user = useSelector(selectUser);
+  const { user } = useContext(AuthContext);
+  console.log("User:", user);
   const { createOrganization, isPending } = useCreateOrganization();
   const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
   const [data, setData] = useState({

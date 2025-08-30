@@ -15,7 +15,7 @@ export type User = {
   name: string;
   email: string;
   role: UserRole;
-  organization: Organization | null;
+  organizations: Organization | null;
 };
 
 export type Credentials = {
@@ -25,6 +25,12 @@ export type Credentials = {
 
 export type onSubmit = {
   onSubmitForm: () => void;
+};
+
+export type AuthContextValue = {
+  loading: boolean;
+  token: string | null;
+  user: any;
 };
 
 export interface CreateOrgFormProps {

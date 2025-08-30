@@ -1,16 +1,17 @@
 import CreateOrgButton from "@/components/CreateOrgButton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth } from "@/hooks/useAuth";
 import { useFetchOrganization } from "@/hooks/useFetchOrganization";
+import { AuthContext } from "@/providers/AuthProvider";
+import { useContext } from "react";
 
 export default function Organization() {
-  const { user } = useAuth();
+  const { user } = useContext(AuthContext);
+  console.log(user);
   const { organization, isLoading } = useFetchOrganization(
-    user?.data.users.organizations[0].id
+    user?.organizations[0]?.id
   );
-  console.log("User details: ", user);
-  console.log("Org:", organization);
+
   return (
     <div className="w-full h-full flex flex-col p-2 items-center">
       <div className="self-end mb-4">
