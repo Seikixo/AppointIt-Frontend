@@ -29,7 +29,6 @@ export type onSubmit = {
 
 export type AuthContextValue = {
   loading: boolean;
-  token: string | null;
   user: any;
 };
 
