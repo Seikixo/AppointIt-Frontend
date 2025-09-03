@@ -12,8 +12,8 @@ export default function PrivateRoute({
   const location = useLocation();
   if (loading) {
     return (
-      <div>
-        <Loader /> Loading...
+      <div className="flex flex-row gap-2 w-full h-full justify-center items-center">
+        <Loader /> <p>Loading...</p>
       </div>
     );
   }
