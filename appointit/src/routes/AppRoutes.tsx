@@ -7,8 +7,8 @@ import PrivateRoutes from "./PrivateRoutes";
 
 import { lazy, Suspense } from "react";
 
-const Dashboard = lazy(() => import("@/pages/Dashboard"));
-const Organization = lazy(() => import("@/pages/Organization"));
+const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
+const Organization = lazy(() => import("@/pages/organization/Organization"));
 
 function DefaultRedirect() {
   const token = localStorage.getItem("token");

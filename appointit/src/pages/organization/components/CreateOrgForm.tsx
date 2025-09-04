@@ -1,11 +1,11 @@
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
+import { Textarea } from "../../../components/ui/textarea";
 import { useContext, useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../../../components/ui/button";
 import { useCreateOrganization } from "@/hooks/useCreateOrganization";
 import type { Organization } from "@/types/types";
-import { Loader } from "./ui/loader";
+import { Loader } from "../../../components/ui/loader";
 import { AuthContext } from "@/providers/AuthProvider";
 
 export default function CreateOrgForm() {

@@ -1,4 +1,4 @@
-import CreateOrgButton from "@/components/CreateOrgButton";
+import CreateOrgButton from "@/pages/organization/components/CreateOrgButton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFetchOrganization } from "@/hooks/useFetchOrganization";
@@ -12,7 +12,7 @@ export default function Organization() {
   );
   console.log("Org details:", organization);
 
-  const services = organization.organization.services;
+  const services = organization?.organization?.services;
   console.log("Org services details:", services);
   return (
     <div className="w-full h-full flex flex-col p-2 items-center">
