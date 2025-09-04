@@ -35,28 +35,75 @@ export default function Organization() {
           </Card>
         </div>
       ) : (
-        // Real card
-        <div className="flex w-full flex-col gap-4">
-          <Card className="flex flex-col gap-1 w-full p-4">
+        <div className="flex w-full flex-col">
+          <Card className="flex flex-col gap-1 w-full p-4 mb-6">
             <div className="font-bold">{organization?.organization.name}</div>
             <div>{organization?.organization.address}</div>
             <div>{organization?.organization.contact_number}</div>
             <div>{organization?.organization.email}</div>
           </Card>
 
-          <Card className="flex flex-col gap-2 w-full p-4">
-            <h2 className="mb-4">Services</h2>
-            {services.map((service: any) => (
-              <div key={service.id} className="flex flex-row gap-2 mr-4">
-                <p>{service.category_id}</p>
-                <p>{service.name}</p>
-                <p>{service.description}</p>
-                <p>{service.price}</p>
-                <p>{service.duration}</p>
-                <p>{service.updated_at}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div>
+              <h2 className="mb-4">Appointments</h2>
+              <div>
+                <Card></Card>
               </div>
-            ))}
-          </Card>
+            </div>
+
+            <div>
+              <h2 className="mb-4">Services</h2>
+              <div className="relative">
+                <button
+                  type="button"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 rounded-full shadow p-2 hidden md:block"
+                  onClick={() => {
+                    const el = document.getElementById("services-reel");
+                    if (el) el.scrollBy({ left: -320, behavior: "smooth" });
+                  }}
+                  aria-label="Scroll left"
+                >
+                  &#8592;
+                </button>
+                <div
+                  id="services-reel"
+                  className="flex overflow-x-auto gap-4 pb-2 scroll-smooth snap-x snap-mandatory"
+                  style={{ scrollBehavior: "smooth" }}
+                >
+                  {services.map((service: any) => (
+                    <Card
+                      key={service.id}
+                      className="flex flex-col gap-2 p-4 min-w-[220px] max-w-[320px] w-full snap-center"
+                    >
+                      <p className="text-xs text-muted-foreground">
+                        Category: {service.category_id}
+                      </p>
+                      <p className="font-semibold text-base">{service.name}</p>
+                      <p className="text-sm">{service.description}</p>
+                      <p className="text-sm font-medium">${service.price}</p>
+                      <p className="text-xs">
+                        Duration: {service.duration} min
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Updated: {service.updated_at}
+                      </p>
+                    </Card>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 rounded-full shadow p-2 hidden md:block"
+                  onClick={() => {
+                    const el = document.getElementById("services-reel");
+                    if (el) el.scrollBy({ left: 320, behavior: "smooth" });
+                  }}
+                  aria-label="Scroll right"
+                >
+                  &#8594;
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
