@@ -8,6 +8,15 @@ export type Organization = {
   address: string;
 };
 
+export type Service = {
+  id?: number;
+  name: string;
+  description: string;
+  price: number;
+  duration: number;
+  updated_at: string;
+};
+
 type UserRole = "admin" | "customer";
 
 export type User = {
