@@ -12,10 +12,12 @@ export default function Organization() {
   const { organization, isLoading } = useFetchOrganization(
     user?.organizations[0]?.id
   );
-  console.log("Org details:", organization);
 
   const services = organization?.organization?.services;
   console.log("Org services details:", services);
+
+  const appointments = services.flatMap((service: any) => service.appointments);
+  console.log("Services appointments", appointments);
 
   const renderServiceCard = (service: Service) => (
     <Card className="flex flex-col gap-2 p-4 min-w-[300px] h-full w-full">
@@ -61,7 +63,15 @@ export default function Organization() {
             <div>
               <h2 className="mb-4">Appointments</h2>
               <div>
-                <Card></Card>
+                <Card>
+                  {appointments?.map((appointment: any) => (
+                    <ul className="flex flex-row gap-2">
+                      <li key={appointment.id}>{appointment.id}</li>
+                      <li>{appointment.notes}</li>
+                      <li>{appointment.appointment_date}</li>
+                    </ul>
+                  ))}
+                </Card>
               </div>
             </div>
 
