@@ -38,7 +38,7 @@ export default function Login() {
   return (
     <Card className="w-full max-w-md mx-auto shadow-lg rounded-2xl">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold">Welcome Back 👋</CardTitle>
+        <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
         <p className="text-sm text-muted-foreground mt-1">
           Please sign in to continue
         </p>
