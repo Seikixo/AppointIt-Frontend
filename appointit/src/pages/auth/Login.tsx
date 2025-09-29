@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { Loader } from "@/components/ui/loader";
 import { Eye, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
-  const { login, isLoading } = useAuth();
+  const { login, isLoginLoading } = useAuth();
 
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -30,8 +31,7 @@ export default function Login() {
         error?.response?.data?.message ||
         error?.message ||
         "Something went wrong. Please try again.";
-      console.error("Login error:", error);
-      console.log("Message", message);
+      setError(message);
     }
   };
 
@@ -45,6 +45,7 @@ export default function Login() {
       </CardHeader>
 
       <CardContent>
+        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
             <label
@@ -91,14 +92,12 @@ export default function Login() {
             </button>
           </div>
 
-          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
               Don’t have an account?{" "}
-              <a href="/register" className="text-primary hover:underline">
-                Sign up
-              </a>
+              <Link to={"/register"} className="text-primary hover:underline">
+                Register
+              </Link>
             </span>
             <a href="/forgot-password" className="text-primary hover:underline">
               Forgot password?
@@ -107,10 +106,10 @@ export default function Login() {
 
           <Button
             type="submit"
-            className="w-full h-11 text-base"
-            disabled={isLoading}
+            className="w-full h-11 text-base mt-8"
+            disabled={isLoginLoading}
           >
-            {isLoading ? <Loader /> : "Login"}
+            {isLoginLoading ? <Loader /> : "Login"}
           </Button>
         </form>
       </CardContent>

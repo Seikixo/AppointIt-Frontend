@@ -17,7 +17,7 @@ export type Service = {
   updated_at: string;
 };
 
-type UserRole = "admin" | "customer";
+export type UserRole = "admin" | "customer";
 
 export type User = {
   id: number;
@@ -25,6 +25,14 @@ export type User = {
   email: string;
   role: UserRole;
   organizations: Organization | null;
+};
+
+export type CreateUser = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+  role: UserRole;
 };
 
 export type Credentials = {

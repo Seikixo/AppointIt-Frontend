@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { loginUser, logoutUser } from "@/services/auth";
-import type { Credentials } from "@/types/types";
+import { loginUser, logoutUser, registerUser } from "@/services/auth";
+import type { CreateUser, Credentials } from "@/types/types";
 import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
@@ -24,8 +24,17 @@ export const useAuth = () => {
     },
   });
 
+  const registerMutation = useMutation({
+    mutationFn: (createUser: CreateUser) => registerUser(createUser),
+    onSuccess: () => {
+      navigate("/login");
+    },
+  });
+
   return {
-    isLoading: loginMutation.isPending,
+    isLoginLoading: loginMutation.isPending,
+    isRegisterLoading: registerMutation.isPending,
+    register: registerMutation.mutateAsync,
     login: loginMutation.mutateAsync,
     logout: logoutMutation.mutateAsync,
   };

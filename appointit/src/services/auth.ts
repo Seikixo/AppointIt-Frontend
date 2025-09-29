@@ -1,4 +1,4 @@
-import type { Credentials } from "@/types/types";
+import type { CreateUser, Credentials } from "@/types/types";
 import axiosInstance from "./axios";
 
 export const loginUser = async (data: Credentials) => {
@@ -9,7 +9,8 @@ export const loginUser = async (data: Credentials) => {
   } catch (error: any) {
     const message =
       error.response?.data?.message || "Login failed. Please try again.";
-    return { success: false, message };
+    const errors = error.response?.data?.errors || {};
+    throw { message, errors };
   }
 };
 
@@ -20,17 +21,21 @@ export const logoutUser = async () => {
     return response.data;
   } catch (error: any) {
     const message = error.response;
-    return { success: false, message: message };
+    throw new Error(message);
   }
 };
 
-export const registerUser = (data: {
-  name: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
-  role: string;
-}) => axiosInstance.post("/register", data);
+export const registerUser = async (data: CreateUser) => {
+  try {
+    const response = await axiosInstance.post("/register", data);
+    return response;
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || "Registration failed. Please try again.";
+    const errors = error.response?.data?.errors || {};
+    throw { message, errors };
+  }
+};
 
 export const getUser = async () => {
   try {
@@ -38,6 +43,6 @@ export const getUser = async () => {
     return response.data.users;
   } catch (error: any) {
     const message = error.response;
-    return { success: false, message: message };
+    throw new Error(message);
   }
 };

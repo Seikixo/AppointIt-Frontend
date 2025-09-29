@@ -6,6 +6,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./PrivateRoutes";
 
 import { lazy, Suspense } from "react";
+import Register from "@/pages/auth/Register";
 
 const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
 const Organization = lazy(() => import("@/pages/organization/Organization"));
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         <Route path="/" element={<DefaultRedirect />} />
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         <Route element={<MainLayout />}>
