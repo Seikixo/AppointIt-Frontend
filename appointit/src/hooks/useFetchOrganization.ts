@@ -8,8 +8,8 @@ export const useFetchOrganization = (orgId?: number) => {
     isError,
   } = useQuery({
     queryKey: ["organizations", orgId],
-    queryFn: () => getOrganizationApi(orgId!),
-    enabled: !!orgId,
+    queryFn: () => orgId ? getOrganizationApi(orgId) : Promise.resolve(null),
+    enabled: !!orgId, // Only run query if orgId exists
   });
 
   return {

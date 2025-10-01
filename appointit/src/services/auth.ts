@@ -17,7 +17,6 @@ export const loginUser = async (data: Credentials) => {
 export const logoutUser = async () => {
   try {
     const response = await axiosInstance.post("/logout");
-    localStorage.removeItem("token");
     return response.data;
   } catch (error: any) {
     const message = error.response;

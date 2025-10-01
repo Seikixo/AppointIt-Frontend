@@ -8,9 +8,11 @@ import type { Service } from "@/types/types";
 import { CardCarousel } from "@/components/CardCarousel";
 import { formatTime } from "@/utils/formatTime";
 import { Separator } from "@/components/ui/separator";
+import { Building2 } from "lucide-react";
 
 export default function Organization() {
   const { user } = useContext(AuthContext);
+  console.log("User:", user.id);
   const orgId = user?.organizations?.[0]?.id;
   const { organization, isLoading } = useFetchOrganization(orgId);
 
@@ -33,9 +35,25 @@ export default function Organization() {
     </Card>
   );
 
+  const EmptyState = () => (
+    <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+      <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mb-6">
+        <Building2 className="w-12 h-12 text-muted-foreground" />
+      </div>
+      <h3 className="text-2xl font-bold text-foreground mb-3">
+        No Organization Found
+      </h3>
+      <p className="text-muted-foreground max-w-md mb-8 leading-relaxed">
+        You haven't created or joined any organization yet. Create your first
+        organization to start managing services and appointments.
+      </p>
+      <CreateOrgButton />
+    </div>
+  );
+
   return (
     <div className="w-full h-full flex flex-col p-2 items-center">
-      <div className="self-end mb-4">
+      <div className={`self-end mb-4 ${!organization ? "hidden" : "block"}`}>
         <CreateOrgButton />
       </div>
 
@@ -54,42 +72,50 @@ export default function Organization() {
         </div>
       ) : (
         <div className="flex w-full flex-col">
-          <Card className="flex flex-col gap-1 w-full p-4 mb-6">
-            <div className="font-bold">{organization?.organization?.name}</div>
-            <div>{organization?.organization?.address}</div>
-            <div>{organization?.organization?.contact_number}</div>
-            <div>{organization?.organization?.email}</div>
-          </Card>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {!organization ? (
+            <EmptyState />
+          ) : (
             <div>
-              <h2 className="mb-4">Appointments</h2>
-              <div>
-                <Card className="h-full p-4 min-h-[300px] overflow-auto">
-                  <div className="grid gap-4">
-                    {appointments?.map((appointment: any) => (
-                      <div
-                        key={appointment.id}
-                        className="p-4 border border-transparent hover:border-accent hover:bg-slate-100 transition-all rounded-lg"
-                      >
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                          <div className="space-y-1">
-                            <div className="text-sm font-medium">
-                              Date & Time
-                            </div>
-                            <div className="text-sm text-muted-foreground">
-                              {appointment.appointment_date}
-                            </div>
-                            <div className="text-sm text-muted-foreground">
-                              {formatTime(appointment.start_time)} -{" "}
-                              {formatTime(appointment.end_time)}
-                            </div>
-                          </div>
-                          <div className="space-y-1">
-                            <div className="text-sm font-medium">Status</div>
-                            <div className="text-sm">
-                              <span
-                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+              <Card className="flex flex-col gap-1 w-full p-4 mb-6">
+                <div className="font-bold">
+                  {organization?.organization?.name}
+                </div>
+                <div>{organization?.organization?.address}</div>
+                <div>{organization?.organization?.contact_number}</div>
+                <div>{organization?.organization?.email}</div>
+              </Card>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h2 className="mb-4">Appointments</h2>
+                  <div>
+                    <Card className="h-full p-4 min-h-[300px] overflow-auto">
+                      <div className="grid gap-4">
+                        {appointments?.map((appointment: any) => (
+                          <div
+                            key={appointment.id}
+                            className="p-4 border border-transparent hover:border-accent hover:bg-slate-100 transition-all rounded-lg"
+                          >
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                              <div className="space-y-1">
+                                <div className="text-sm font-medium">
+                                  Date & Time
+                                </div>
+                                <div className="text-sm text-muted-foreground">
+                                  {appointment.appointment_date}
+                                </div>
+                                <div className="text-sm text-muted-foreground">
+                                  {formatTime(appointment.start_time)} -{" "}
+                                  {formatTime(appointment.end_time)}
+                                </div>
+                              </div>
+                              <div className="space-y-1">
+                                <div className="text-sm font-medium">
+                                  Status
+                                </div>
+                                <div className="text-sm">
+                                  <span
+                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                 ${
                                   appointment.status === "Confirmed"
                                     ? "bg-green-100 text-green-800"
@@ -99,37 +125,39 @@ export default function Organization() {
                                     ? "bg-red-100 text-red-800"
                                     : "bg-gray-100 text-gray-800"
                                 }`}
-                              >
-                                {appointment.status}
-                              </span>
+                                  >
+                                    {appointment.status}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
+                            {appointment.notes && (
+                              <div className="mt-3 mb-2">
+                                <div className="text-sm font-medium">Notes</div>
+                                <div className="text-sm text-muted-foreground">
+                                  {appointment.notes}
+                                </div>
+                              </div>
+                            )}
+                            <Separator />
                           </div>
-                        </div>
-                        {appointment.notes && (
-                          <div className="mt-3 mb-2">
-                            <div className="text-sm font-medium">Notes</div>
-                            <div className="text-sm text-muted-foreground">
-                              {appointment.notes}
-                            </div>
-                          </div>
-                        )}
-                        <Separator />
+                        ))}
                       </div>
-                    ))}
+                    </Card>
                   </div>
-                </Card>
+                </div>
+
+                <div>
+                  <h2 className="mb-4">Services</h2>
+                  <CardCarousel
+                    items={services}
+                    renderCard={renderServiceCard}
+                    uniqueId="service-carousel"
+                  />
+                </div>
               </div>
             </div>
-
-            <div>
-              <h2 className="mb-4">Services</h2>
-              <CardCarousel
-                items={services}
-                renderCard={renderServiceCard}
-                uniqueId="service-carousel"
-              />
-            </div>
-          </div>
+          )}
         </div>
       )}
     </div>

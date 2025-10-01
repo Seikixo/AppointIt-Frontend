@@ -19,7 +19,9 @@ export const useAuth = () => {
   const logoutMutation = useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: ["auth-user"] });
+      localStorage.removeItem("token");
+      queryClient.invalidateQueries({ queryKey: ["auth-user"] });
+      queryClient.clear();
       navigate("/login");
     },
   });
